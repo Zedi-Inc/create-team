@@ -1,8 +1,68 @@
+import { useReducer, useState } from "react";
 import styles from "./styles.module.css";
-import arrow from "../assets/chevron-down.svg";
 import plus from "../assets/plus.svg";
 
+const initialState = {
+  id: new Date(),
+  role: "",
+  level: "",
+  quantity: 1,
+  total: 0,
+};
+
+const addItemReducer = () => {};
+
+const VALUES = {
+  intern: 10,
+  beginner: 30,
+  intermediate: 60,
+  expert: 80,
+  copywriter: 50,
+  designer: 60,
+  strategist: 70,
+  content: 60,
+};
+
 const Main = () => {
+  const [items, setItems] = useState([]);
+  const [itemState, setItemState] = useState(initialState);
+  // const [state, dispatch] = useReducer(addItemReducer, initialState);
+
+  const LEVELS = ["intern", "beginner", "intermediate", "expert"];
+  const ROLES = ["copywriter", "designer", "strategist", "content"];
+
+  const inputChangeHandler = (e, id) => {
+    const { name, value } = e.target;
+    // setItemState((prevState) => ({ ...prevState, [name]: value }));
+
+    const updatedItem = items.map((item) =>
+      item.id === id
+        ? {
+            ...item,
+            [name]: value,
+            total:
+              (VALUES[`${item.role}`] &&
+                VALUES[`${item.role}`] * item.quantity) ||
+              item.quantity,
+          }
+        : item
+    );
+    setItems(updatedItem);
+  };
+
+  const addNewRoleHandler = () => {
+    setItems((prevState) => [
+      ...prevState,
+      {
+        id: new Date(),
+        role: "",
+        level: "",
+        quantity: 1,
+        total: 0,
+      },
+    ]);
+  };
+
   return (
     <main>
       <div className={styles.tableContainer}>
@@ -13,31 +73,56 @@ const Main = () => {
           <div className="">Quantity</div>
           <div className="">Cost/Month</div>
         </div>
-        <div className={styles.item}>
-          <div className={styles["no-border"]}>1</div>
-          <div className={styles.selection}>
-            <select name="" id="">
-              <option value="copywriter">Copywriter</option>
-              <option value="designer">Designer</option>
-              <option value="strategist">Strategist</option>
-              <option value="content">Content creator</option>
-            </select>
+        {items.map((item, i) => (
+          <div key={i} className={styles.item}>
+            <div className={styles["no-border"]}>{i + 1}</div>
+            <div className={styles.selection}>
+              <select
+                onChange={(e) => inputChangeHandler(e, item.id)}
+                name="role"
+                id=""
+              >
+                <option key={i} value="">
+                  Select role
+                </option>
+                {ROLES.map((role, i) => (
+                  <option key={i} value={role}>
+                    {role}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className={styles.selection}>
+              <select
+                onChange={(e) => inputChangeHandler(e, item.id)}
+                name="level"
+                id=""
+              >
+                <option key={i} value="">
+                  Select level
+                </option>
+                {LEVELS.map((level, i) => (
+                  <option key={i} value={level}>
+                    {level}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="">
+              <input
+                type="number"
+                name="quantity"
+                value={item.quantity}
+                min={1}
+                placeholder={item.quantity}
+                onChange={(e) => inputChangeHandler(e, item.id)}
+              />
+            </div>
+            <div className="">{`$${item.total}`}</div>
           </div>
-          <div className={styles.selection}>
-            <select name="" id="">
-              <option value="intern">Intern</option>
-              <option value="beginner">Beginner</option>
-              <option value="intermediate">Intermediate</option>
-              <option value="expert">Expert</option>
-            </select>
-          </div>
-          <div className="">
-            <input type="number" min={1} placeholder="1" />
-          </div>
-          <div className="">$700</div>
-        </div>
+        ))}
         <div className={styles.add}>
-          <button>
+          <button onClick={addNewRoleHandler}>
             <span>Add new role</span>
             <img src={plus} alt="add" />
           </button>

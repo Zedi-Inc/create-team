@@ -59,7 +59,7 @@ li {
 .header h1 {
   color: var(--blue);
   font-weight: 700;
-  font-size: 3.8rem;
+  font-size: 3.2rem;
   line-height: 80px;
   margin-bottom: 24px;
 }
@@ -259,6 +259,7 @@ li {
   display: flex;
   align-items: center;
   margin-top: 1.5rem;
+  cursor: pointer;
 }
 
 .add img {
