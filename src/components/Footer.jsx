@@ -33,7 +33,7 @@ const Footer = () => {
         <h4>Social</h4>
         <ul>
           {SOCIAL_ITEMS.map((item) => (
-            <li>
+            <li key={item.id}>
               <a href={item.link}>
                 <img src={item.icon} alt={item.id} />
               </a>

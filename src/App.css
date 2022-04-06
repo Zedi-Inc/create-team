@@ -4,3 +4,6 @@
   box-sizing: border-box;
   font-family: poppins;
 }
+body {
+  max-width: 1800px;
+}

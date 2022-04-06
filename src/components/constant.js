@@ -3,6 +3,9 @@ import ig from "../assets/instagram.svg";
 import tw from "../assets/twitter.svg";
 import ln from "../assets/linkedin.svg";
 
+export const LEVELS = ["intern", "beginner", "intermediate", "expert"];
+export const ROLES = ["copywriter", "designer", "strategist", "content"];
+
 export const NAV_ITEMS = [
   {
     id: 0,
